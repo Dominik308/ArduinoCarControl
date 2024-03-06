@@ -4,104 +4,143 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:layout_margin="5dp">
+    android:layout_margin="10dp"
+    tools:context=".MainActivity">
 
-    <Button
+    <ImageButton
         android:id="@+id/forward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="200dp"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:rotation="180"
+        android:src="@drawable/arrow"
         android:text="@string/forward" />
 
-    <Button
+    <ImageButton
         android:id="@+id/left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/forward"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp"
-        android:text="@string/left" />
-
-    <Button
-        android:id="@+id/right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/forward"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:text="@string/right" />
-
-    <Button
-        android:id="@+id/forward_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/left"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp"
-        android:text="@string/forward_left" />
-
-    <Button
-        android:id="@+id/forward_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/right"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:text="@string/forward_right" />
-
-    <Button
-        android:id="@+id/backward_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/forward_left"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp"
-        android:text="@string/backward_left" />
+        android:layout_marginTop="32dp"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:rotation="90"
+        android:src="@drawable/arrow"
+        android:text="@string/left" />
 
-    <Button
-        android:id="@+id/backward_right"
+    <ImageButton
+        android:id="@+id/right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/forward_right"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:rotation="-90"
+        android:src="@drawable/arrow"
+        android:text="@string/right" />
+
+    <ImageButton
+        android:id="@+id/forward_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/forward"
+        android:layout_alignParentStart="true"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:rotation="135"
+        android:src="@drawable/arrow"
+        android:text="@string/forward_left" />
+
+    <ImageButton
+        android:id="@+id/forward_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/forward"
+        android:layout_alignParentEnd="true"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:rotation="-135"
+        android:src="@drawable/arrow"
+        android:text="@string/forward_right" />
+
+    <ImageButton
+        android:id="@+id/backward_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/left"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="32dp"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:rotation="45"
+        android:src="@drawable/arrow"
+        android:text="@string/backward_left" />
+
+    <ImageButton
+        android:id="@+id/backward_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/right"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="32dp"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:rotation="-45"
+        android:src="@drawable/arrow"
         android:text="@string/backward_right" />
 
-    <Button
+    <ImageButton
         android:id="@+id/rotate_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/backward_left"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="60dp"
+        android:src="@drawable/turn_left"
         android:text="@string/rotate_left" />
 
-    <Button
+    <ImageButton
         android:id="@+id/rotate_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/backward_right"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="60dp"
+        android:src="@drawable/turn_right"
         android:text="@string/rotate_right" />
 
-    <Button
+    <ImageButton
         android:id="@+id/backward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/rotate_left"
         android:layout_centerHorizontal="true"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:src="@drawable/arrow"
         android:text="@string/backward" />
 
-    <Button
+    <ImageButton
         android:id="@+id/stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_below="@id/rotate_left"
-        android:layout_centerInParent="true"
-        android:text="@string/stop" />
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/stop"
+        android:background="@null"
+        android:text="@string/stop"
+        android:importantForAccessibility="no"
+        tools:ignore="RelativeOverlap" />
 
 </RelativeLayout>

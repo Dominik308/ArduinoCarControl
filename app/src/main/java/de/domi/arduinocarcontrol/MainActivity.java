@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,17 +61,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
 
-        Button forwardButton = findViewById(R.id.forward);
-        Button backwardButton = findViewById(R.id.backward);
-        Button leftButton = findViewById(R.id.left);
-        Button rightButton = findViewById(R.id.right);
-        Button forwardLeftButton = findViewById(R.id.forward_left);
-        Button forwardRightButton = findViewById(R.id.forward_right);
-        Button backwardLeftButton = findViewById(R.id.backward_left);
-        Button backwardRightButton = findViewById(R.id.backward_right);
-        Button rotateLeftButton = findViewById(R.id.rotate_left);
-        Button rotateRightButton = findViewById(R.id.rotate_right);
-        Button stopButton = findViewById(R.id.stop);
+        ImageButton forwardButton = findViewById(R.id.forward);
+        ImageButton backwardButton = findViewById(R.id.backward);
+        ImageButton leftButton = findViewById(R.id.left);
+        ImageButton rightButton = findViewById(R.id.right);
+        ImageButton forwardLeftButton = findViewById(R.id.forward_left);
+        ImageButton forwardRightButton = findViewById(R.id.forward_right);
+        ImageButton backwardLeftButton = findViewById(R.id.backward_left);
+        ImageButton backwardRightButton = findViewById(R.id.backward_right);
+        ImageButton rotateLeftButton = findViewById(R.id.rotate_left);
+        ImageButton rotateRightButton = findViewById(R.id.rotate_right);
+        ImageButton stopButton = findViewById(R.id.stop);
 
         forwardButton.setOnClickListener(v -> sendCommand(COMMAND_FORWARD));
         backwardButton.setOnClickListener(v -> sendCommand(COMMAND_BACKWARD));
