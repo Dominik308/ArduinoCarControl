@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ArduinoCarControl</string>
+    <string name="forward">Forwards</string>
+    <string name="backward">Backwards</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="forward_left">Forward Left</string>
+    <string name="forward_right">Forward Right</string>
+    <string name="backward_left">Backward Left</string>
+    <string name="backward_right">Backward Right</string>
+    <string name="rotate_left">Rotate Left</string>
+    <string name="rotate_right">Rotate Right</string>
+    <string name="stop">Stop</string>
+</resources>
