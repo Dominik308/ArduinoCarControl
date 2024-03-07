@@ -4,8 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
+    android:layout_marginStart="36dp"
+    android:layout_marginEnd="36dp"
     tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="6dp">
+
+        <ImageButton
+            android:id="@+id/connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:importantForAccessibility="no"
+            android:src="@drawable/add" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/speed"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_toStartOf="@id/sendSpeed"
+                android:hint="Speed"
+                android:text="255"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:inputType="numberDecimal"
+                android:textSize="27sp"
+                tools:ignore="TextViewEdits" />
+
+            <ImageButton
+                android:id="@+id/sendSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@null"
+                android:layout_alignParentEnd="true"
+                android:importantForAccessibility="no"
+                android:src="@drawable/right_arrow" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/forward"
@@ -16,8 +67,7 @@
         android:background="@null"
         android:importantForAccessibility="no"
         android:rotation="180"
-        android:src="@drawable/arrow"
-        android:text="@string/forward" />
+        android:src="@drawable/arrow" />
 
     <ImageButton
         android:id="@+id/left"
@@ -29,8 +79,7 @@
         android:background="@null"
         android:importantForAccessibility="no"
         android:rotation="90"
-        android:src="@drawable/arrow"
-        android:text="@string/left" />
+        android:src="@drawable/arrow" />
 
     <ImageButton
         android:id="@+id/right"
@@ -42,8 +91,7 @@
         android:background="@null"
         android:importantForAccessibility="no"
         android:rotation="-90"
-        android:src="@drawable/arrow"
-        android:text="@string/right" />
+        android:src="@drawable/arrow" />
 
     <ImageButton
         android:id="@+id/forward_left"
@@ -54,8 +102,7 @@
         android:background="@null"
         android:importantForAccessibility="no"
         android:rotation="135"
-        android:src="@drawable/arrow"
-        android:text="@string/forward_left" />
+        android:src="@drawable/arrow" />
 
     <ImageButton
         android:id="@+id/forward_right"
@@ -66,8 +113,7 @@
         android:background="@null"
         android:importantForAccessibility="no"
         android:rotation="-135"
-        android:src="@drawable/arrow"
-        android:text="@string/forward_right" />
+        android:src="@drawable/arrow" />
 
     <ImageButton
         android:id="@+id/backward_left"
@@ -79,8 +125,7 @@
         android:background="@null"
         android:importantForAccessibility="no"
         android:rotation="45"
-        android:src="@drawable/arrow"
-        android:text="@string/backward_left" />
+        android:src="@drawable/arrow" />
 
     <ImageButton
         android:id="@+id/backward_right"
@@ -92,8 +137,7 @@
         android:background="@null"
         android:importantForAccessibility="no"
         android:rotation="-45"
-        android:src="@drawable/arrow"
-        android:text="@string/backward_right" />
+        android:src="@drawable/arrow" />
 
     <ImageButton
         android:id="@+id/rotate_left"
@@ -101,12 +145,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/backward_left"
         android:layout_alignParentStart="true"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="32dp"
         android:background="@null"
         android:importantForAccessibility="no"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="60dp"
-        android:src="@drawable/turn_left"
-        android:text="@string/rotate_left" />
+        android:src="@drawable/turn_left" />
 
     <ImageButton
         android:id="@+id/rotate_right"
@@ -114,12 +157,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/backward_right"
         android:layout_alignParentEnd="true"
-        android:background="@null"
-        android:importantForAccessibility="no"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="60dp"
-        android:src="@drawable/turn_right"
-        android:text="@string/rotate_right" />
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:src="@drawable/turn_right" />
 
     <ImageButton
         android:id="@+id/backward"
@@ -129,18 +171,17 @@
         android:layout_centerHorizontal="true"
         android:background="@null"
         android:importantForAccessibility="no"
-        android:src="@drawable/arrow"
-        android:text="@string/backward" />
+        android:src="@drawable/arrow" />
 
     <ImageButton
         android:id="@+id/stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/stop"
+        android:layout_below="@id/left"
+        android:layout_centerInParent="true"
         android:background="@null"
-        android:text="@string/stop"
         android:importantForAccessibility="no"
+        android:src="@drawable/stop"
         tools:ignore="RelativeOverlap" />
 
 </RelativeLayout>
