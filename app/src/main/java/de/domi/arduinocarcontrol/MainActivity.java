@@ -8,8 +8,12 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -40,37 +44,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
+        UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         BluetoothDevice device = bluetoothAdapter.getRemoteDevice("00:23:09:01:3A:1B");
 
-        new Thread(() -> {
-            try {
-                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                socket = device.createRfcommSocketToServiceRecord(uuid);
-                socket.connect();
-                outputStream = socket.getOutputStream();
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Bluetooth successfully connected", Toast.LENGTH_LONG).show());
-            } catch (IOException e) {
-                e.printStackTrace();
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to connect to device", Toast.LENGTH_LONG).show());
-            }
-        }).start();
+        connectToDevice(device, uuid);
 
-        Button forwardButton = findViewById(R.id.forward);
-        Button backwardButton = findViewById(R.id.backward);
-        Button leftButton = findViewById(R.id.left);
-        Button rightButton = findViewById(R.id.right);
-        Button forwardLeftButton = findViewById(R.id.forward_left);
-        Button forwardRightButton = findViewById(R.id.forward_right);
-        Button backwardLeftButton = findViewById(R.id.backward_left);
-        Button backwardRightButton = findViewById(R.id.backward_right);
-        Button rotateLeftButton = findViewById(R.id.rotate_left);
-        Button rotateRightButton = findViewById(R.id.rotate_right);
-        Button stopButton = findViewById(R.id.stop);
+        ImageButton forwardButton = findViewById(R.id.forward);
+        ImageButton backwardButton = findViewById(R.id.backward);
+        ImageButton leftButton = findViewById(R.id.left);
+        ImageButton rightButton = findViewById(R.id.right);
+        ImageButton forwardLeftButton = findViewById(R.id.forward_left);
+        ImageButton forwardRightButton = findViewById(R.id.forward_right);
+        ImageButton backwardLeftButton = findViewById(R.id.backward_left);
+        ImageButton backwardRightButton = findViewById(R.id.backward_right);
+        ImageButton rotateLeftButton = findViewById(R.id.rotate_left);
+        ImageButton rotateRightButton = findViewById(R.id.rotate_right);
+        ImageButton stopButton = findViewById(R.id.stop);
+        ImageButton connect = findViewById(R.id.connect);
+        EditText speed = findViewById(R.id.speed);
+        ImageButton sendSpeed = findViewById(R.id.sendSpeed);
+
 
         forwardButton.setOnClickListener(v -> sendCommand(COMMAND_FORWARD));
         backwardButton.setOnClickListener(v -> sendCommand(COMMAND_BACKWARD));
@@ -83,6 +78,25 @@ public class MainActivity extends AppCompatActivity {
         rotateLeftButton.setOnClickListener(v -> sendCommand(COMMAND_ROTATE_LEFT));
         rotateRightButton.setOnClickListener(v -> sendCommand(COMMAND_ROTATE_RIGHT));
         stopButton.setOnClickListener(v -> sendCommand(COMMAND_STOP));
+        connect.setOnClickListener(v -> connectToDevice(device, uuid));
+
+        sendSpeed.setOnClickListener(v -> {
+            try {
+                if (outputStream != null) {
+                    String newSpeed = String.valueOf(speed.getText()) + '\n';
+                    outputStream.write(newSpeed.getBytes());
+                    outputStream.flush();
+                    Toast.makeText(this, "New Speed: " + speed.getText(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("MSG", "Output stream is null");
+                    runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to send command", Toast.LENGTH_LONG).show());
+                }
+            } catch (IOException e) {
+                Log.e("MSG", "Failed to send command", e);
+                e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to send command", Toast.LENGTH_LONG).show());
+            }
+        });
     }
 
     private void sendCommand(char command) {
@@ -100,6 +114,23 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to send command", Toast.LENGTH_LONG).show());
         }
+    }
+
+    void connectToDevice(BluetoothDevice device, UUID uuid) {
+        new Thread(() -> {
+            try {
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                socket = device.createRfcommSocketToServiceRecord(uuid);
+                socket.connect();
+                outputStream = socket.getOutputStream();
+                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Bluetooth successfully connected", Toast.LENGTH_LONG).show());
+            } catch (IOException e) {
+                e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to connect to device", Toast.LENGTH_LONG).show());
+            }
+        }).start();
     }
 
 
