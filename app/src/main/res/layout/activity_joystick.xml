@@ -6,6 +6,7 @@
     android:layout_margin="8dp">
 
     <LinearLayout
+        android:id="@+id/connection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -15,9 +16,19 @@
             android:id="@+id/connect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
             android:background="@null"
             android:importantForAccessibility="no"
-            android:src="@drawable/add" />
+            android:src="@drawable/plus" />
+
+        <ImageButton
+            android:id="@+id/disconnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:background="@null"
+            android:importantForAccessibility="no"
+            android:src="@drawable/minus" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -32,42 +43,72 @@
                 android:layout_marginEnd="6dp"
                 android:layout_marginBottom="6dp"
                 android:layout_toStartOf="@id/sendSpeed"
-                android:hint="Speed"
-                android:text="255"
-                android:maxLines="1"
-                android:textAlignment="center"
+                android:hint="@string/speed"
                 android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:text="@string/_255"
+                android:textAlignment="center"
                 android:textSize="27sp" />
 
             <ImageButton
                 android:id="@+id/sendSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_centerHorizontal="true"
                 android:background="@null"
-                android:layout_alignParentEnd="true"
                 android:importantForAccessibility="no"
                 android:src="@drawable/right_arrow" />
 
         </RelativeLayout>
-
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/connection"
+        android:layout_marginTop="3dp"
+        android:text="@string/status_not_connected"
+        android:textColor="#FF0000" />
 
     <TextView
         android:id="@+id/angleAndPower"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/joystick"
-        android:textSize="18sp"/>
+        android:layout_below="@id/status" />
+
+
+    <ImageButton
+        android:id="@+id/turnLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/joystick"
+        android:layout_marginStart="32dp"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:src="@drawable/turn_left" />
+
+
+    <ImageButton
+        android:id="@+id/turnRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/joystick"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="32dp"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:src="@drawable/turn_right" />
 
 
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/joystick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="32dp"
+        android:layout_above="@id/keyboard"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="16dp"
         custom:JV_backgroundColor="#009688"
         custom:JV_borderColor="#00796B"
         custom:JV_borderWidth="8dp"
@@ -78,10 +119,10 @@
         android:id="@+id/keyboard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:background="@null"
         android:importantForAccessibility="no"
-        android:src="@drawable/keyboard"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"/>
+        android:src="@drawable/keyboard" />
 
 </RelativeLayout>

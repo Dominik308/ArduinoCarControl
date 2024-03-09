@@ -18,9 +18,19 @@
             android:id="@+id/connect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
             android:background="@null"
             android:importantForAccessibility="no"
-            android:src="@drawable/add" />
+            android:src="@drawable/plus" />
+
+        <ImageButton
+            android:id="@+id/disconnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:background="@null"
+            android:importantForAccessibility="no"
+            android:src="@drawable/minus" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -35,11 +45,11 @@
                 android:layout_marginEnd="6dp"
                 android:layout_marginBottom="6dp"
                 android:layout_toStartOf="@id/sendSpeed"
-                android:hint="Speed"
-                android:text="255"
-                android:maxLines="1"
-                android:textAlignment="center"
+                android:hint="@string/speed"
                 android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:text="@string/_255"
+                android:textAlignment="center"
                 android:textSize="27sp"
                 tools:ignore="TextViewEdits" />
 
@@ -47,9 +57,9 @@
                 android:id="@+id/sendSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_centerHorizontal="true"
                 android:background="@null"
-                android:layout_alignParentEnd="true"
                 android:importantForAccessibility="no"
                 android:src="@drawable/right_arrow" />
 
@@ -188,10 +198,10 @@
         android:id="@+id/joystick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:background="@null"
         android:importantForAccessibility="no"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:src="@drawable/joystick"
         tools:ignore="RelativeOverlap" />
 
