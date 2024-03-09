@@ -1,14 +1,13 @@
 package de.domi.arduinocarcontrol;
 
 import android.Manifest;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -18,20 +17,16 @@ import androidx.core.app.ActivityCompat;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
     private BluetoothSocket socket;
     private OutputStream outputStream;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        BluetoothDevice device = bluetoothAdapter.getRemoteDevice("00:23:09:01:3A:1B");
 
         ImageButton forwardButton = findViewById(R.id.forward);
         ImageButton backwardButton = findViewById(R.id.backward);
@@ -47,26 +42,110 @@ public class MainActivity extends AppCompatActivity {
         ImageButton connect = findViewById(R.id.connect);
         EditText speed = findViewById(R.id.speed);
         ImageButton sendSpeed = findViewById(R.id.sendSpeed);
+        ImageButton disconnect = findViewById(R.id.disconnect);
+        disconnect.setOnClickListener(v -> onDestroy());
 
         //start new Intent
         ImageButton joystick = findViewById(R.id.joystick);
         joystick.setOnClickListener(v -> {
+            onDestroy();
             Intent intent = new Intent(getApplicationContext(), Joystick.class);
             startActivity(intent);
         });
 
-        forwardButton.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_FORWARD));
-        backwardButton.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_BACKWARD));
-        leftButton.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_LEFT));
-        rightButton.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_RIGHT));
-        forwardLeftButton.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_FORWARD_LEFT));
-        forwardRightButton.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_FORWARD_RIGHT));
-        backwardLeftButton.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_BACKWARD_LEFT));
-        backwardRightButton.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_BACKWARD_RIGHT));
-        rotateLeftButton.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_ROTATE_LEFT));
-        rotateRightButton.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_ROTATE_RIGHT));
+        forwardButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                sendCommand(BluetoothInfo.COMMAND_FORWARD);
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                sendCommand(BluetoothInfo.COMMAND_STOP);
+            }
+            return true;
+        });
+
+        backwardButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                sendCommand(BluetoothInfo.COMMAND_BACKWARD);
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                sendCommand(BluetoothInfo.COMMAND_STOP);
+            }
+            return true;
+        });
+
+        leftButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                sendCommand(BluetoothInfo.COMMAND_LEFT);
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                sendCommand(BluetoothInfo.COMMAND_STOP);
+            }
+            return true;
+        });
+
+        rightButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                sendCommand(BluetoothInfo.COMMAND_RIGHT);
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                sendCommand(BluetoothInfo.COMMAND_STOP);
+            }
+            return true;
+        });
+
+        forwardLeftButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                sendCommand(BluetoothInfo.COMMAND_FORWARD_LEFT);
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                sendCommand(BluetoothInfo.COMMAND_STOP);
+            }
+            return true;
+        });
+
+        forwardRightButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                sendCommand(BluetoothInfo.COMMAND_FORWARD_RIGHT);
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                sendCommand(BluetoothInfo.COMMAND_STOP);
+            }
+            return true;
+        });
+
+        backwardLeftButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                sendCommand(BluetoothInfo.COMMAND_BACKWARD_LEFT);
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                sendCommand(BluetoothInfo.COMMAND_STOP);
+            }
+            return true;
+        });
+
+        backwardRightButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                sendCommand(BluetoothInfo.COMMAND_BACKWARD_RIGHT);
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                sendCommand(BluetoothInfo.COMMAND_STOP);
+            }
+            return true;
+        });
+
+
+        rotateLeftButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                sendCommand(BluetoothInfo.COMMAND_ROTATE_LEFT);
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                sendCommand(BluetoothInfo.COMMAND_STOP);
+            }
+            return true;
+        });
+
+        rotateRightButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                sendCommand(BluetoothInfo.COMMAND_ROTATE_RIGHT);
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                sendCommand(BluetoothInfo.COMMAND_STOP);
+            }
+            return true;
+        });
+
         stopButton.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_STOP));
-        connect.setOnClickListener(v -> connectToDevice(device, uuid));
+        connect.setOnClickListener(v -> connectToDevice());
 
         sendSpeed.setOnClickListener(v -> {
             try {
@@ -74,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                     String newSpeed = String.valueOf(speed.getText()) + '\n';
                     outputStream.write(newSpeed.getBytes());
                     outputStream.flush();
-                    Toast.makeText(this, "New Speed: " + speed.getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "New Speed: " + speed.getText(), Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e("MSG", "Output stream is null");
                     runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to send command", Toast.LENGTH_LONG).show());
@@ -92,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
             if (outputStream != null) {
                 outputStream.write(command);
                 outputStream.flush(); // Flush the output stream
-                Toast.makeText(this, "Command sent: " + command, Toast.LENGTH_SHORT).show();
             } else {
                 Log.e("MSG", "Output stream is null");
                 runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to send command", Toast.LENGTH_LONG).show());
@@ -104,13 +182,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void connectToDevice(BluetoothDevice device, UUID uuid) {
+    void connectToDevice() {
         new Thread(() -> {
             try {
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
-                socket = device.createRfcommSocketToServiceRecord(uuid);
+                socket = BluetoothInfo.device.createRfcommSocketToServiceRecord(BluetoothInfo.uuid);
                 socket.connect();
                 outputStream = socket.getOutputStream();
                 runOnUiThread(() -> Toast.makeText(MainActivity.this, "Bluetooth successfully connected", Toast.LENGTH_LONG).show());
@@ -125,8 +203,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         try {
-            if (socket != null)
+            if (socket != null) {
                 socket.close();
+                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Disconnected", Toast.LENGTH_LONG).show());
+            }
         } catch (IOException e) {
             e.fillInStackTrace();
         }
