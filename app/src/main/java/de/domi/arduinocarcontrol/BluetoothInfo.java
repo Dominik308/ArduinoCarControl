@@ -20,5 +20,4 @@ public class BluetoothInfo {
     protected static final char COMMAND_STOP = 'S';
     protected static final char COMMAND_SELF_DRIVE = 'A';
 
-
 }

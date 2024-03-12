@@ -54,14 +54,39 @@ public class MainActivity extends AppCompatActivity {
         EditText speed = findViewById(R.id.speed);
         ImageButton sendSpeed = findViewById(R.id.sendSpeed);
         ImageButton disconnect = findViewById(R.id.disconnect);
-        disconnect.setOnClickListener(v -> onDestroy());
+        disconnect.setOnClickListener(v -> {
+            try {
+                if (socket != null) {
+                    socket.close();
+                    runOnUiThread(() -> {
+                        status.setTextColor(Color.RED);
+                        status.setText("Status: Not Connected");
+                        Toast.makeText(MainActivity.this, "Disconnected", Toast.LENGTH_LONG).show();
+                    });
+                }
+            } catch (IOException e) {
+                e.fillInStackTrace();
+            }
+        });
 
         //Go to Joystick
         ImageButton joystick = findViewById(R.id.joystick);
         joystick.setOnClickListener(v -> {
+            try {
+                if (socket != null) {
+                    socket.close();
+                    runOnUiThread(() -> {
+                        status.setTextColor(Color.RED);
+                        status.setText("Status: Not Connected");
+                        Toast.makeText(MainActivity.this, "Disconnected", Toast.LENGTH_LONG).show();
+                    });
+                }
+            } catch (IOException e) {
+                e.fillInStackTrace();
+            }
+
             Intent intent = new Intent(getApplicationContext(), Joystick.class);
             startActivity(intent);
-            onDestroy();
         });
 
         forwardButton.setOnTouchListener((v, event) -> {
@@ -248,7 +273,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     void connectToDevice(String address) {
         new Thread(() -> {
             try {
@@ -281,14 +305,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         try {
-            if (socket != null) {
+            if (socket != null)
                 socket.close();
-                runOnUiThread(() -> {
-                    status.setTextColor(Color.RED);
-                    status.setText("Status: Not Connected");
-                    Toast.makeText(MainActivity.this, "Disconnected", Toast.LENGTH_LONG).show();
-                });
-            }
+
         } catch (IOException e) {
             e.fillInStackTrace();
         }

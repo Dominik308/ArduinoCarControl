@@ -149,13 +149,37 @@ public class Joystick extends AppCompatActivity {
         // Go to MainActivity
         ImageButton keyboard = findViewById(R.id.keyboard);
         keyboard.setOnClickListener(v -> {
+            try {
+                if (socket != null) {
+                    socket.close();
+                    runOnUiThread(() -> {
+                        status.setTextColor(Color.RED);
+                        status.setText("Status: Not Connected");
+                        Toast.makeText(Joystick.this, "Disconnected", Toast.LENGTH_LONG).show();
+                    });
+                }
+            } catch (IOException e) {
+                e.fillInStackTrace();
+            }
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
-            onDestroy();
         });
 
         ImageButton disconnect = findViewById(R.id.disconnect);
-        disconnect.setOnClickListener(v -> onDestroy());
+        disconnect.setOnClickListener(v -> {
+            try {
+                if (socket != null) {
+                    socket.close();
+                    runOnUiThread(() -> {
+                        status.setTextColor(Color.RED);
+                        status.setText("Status: Not Connected");
+                        Toast.makeText(Joystick.this, "Disconnected", Toast.LENGTH_LONG).show();
+                    });
+                }
+            } catch (IOException e) {
+                e.fillInStackTrace();
+            }
+        });
 
         ImageButton selfDrive = findViewById(R.id.selfDrive);
         selfDrive.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_SELF_DRIVE));
@@ -233,11 +257,9 @@ public class Joystick extends AppCompatActivity {
             if (socket != null) {
                 socket.close();
 
-                runOnUiThread(() -> {
-                    Toast.makeText(Joystick.this, "Disconnected", Toast.LENGTH_LONG).show();
-                    status.setText("Status: Not Connected");
-                    status.setTextColor(Color.RED);
-                });
+                Toast.makeText(Joystick.this, "Disconnected", Toast.LENGTH_LONG).show();
+                status.setText("Status: Not Connected");
+                status.setTextColor(Color.RED);
             }
         } catch (IOException e) {
             e.fillInStackTrace();
