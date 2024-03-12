@@ -2,14 +2,23 @@ package de.domi.arduinocarcontrol;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +30,10 @@ import java.io.OutputStream;
 public class MainActivity extends AppCompatActivity {
     private BluetoothSocket socket;
     private OutputStream outputStream;
+    private TextView status;
+    private PopupWindow popupWindow;
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +56,12 @@ public class MainActivity extends AppCompatActivity {
         ImageButton disconnect = findViewById(R.id.disconnect);
         disconnect.setOnClickListener(v -> onDestroy());
 
-        //start new Intent
+        //Go to Joystick
         ImageButton joystick = findViewById(R.id.joystick);
         joystick.setOnClickListener(v -> {
-            onDestroy();
             Intent intent = new Intent(getApplicationContext(), Joystick.class);
             startActivity(intent);
+            onDestroy();
         });
 
         forwardButton.setOnTouchListener((v, event) -> {
@@ -145,7 +156,48 @@ public class MainActivity extends AppCompatActivity {
         });
 
         stopButton.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_STOP));
-        connect.setOnClickListener(v -> connectToDevice());
+        connect.setOnClickListener(v -> {
+            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+            // Inflate the custom layout/view
+            View popupView = inflater.inflate(R.layout.popup_layout, null);
+
+            // Initialize a new instance of PopupWindow
+            popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            // Set an elevation value for the popup window
+            popupWindow.setElevation(5.0f);
+
+            ListView listView = popupView.findViewById(R.id.listView);
+
+            // Create an ArrayAdapter with the options
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    MainActivity.this,
+                    android.R.layout.simple_list_item_1,
+                    android.R.id.text1,
+                    new String[]{"00:23:09:01:3A:1B", "00:23:09:01:37:BE"});
+
+            // Set the adapter to the ListView
+            listView.setAdapter(adapter);
+
+            listView.setOnItemClickListener((parent, view, position, id) -> {
+                String address = (String) parent.getItemAtPosition(position);
+                connectToDevice(address);
+                runOnUiThread(() -> popupWindow.dismiss());
+            });
+
+            // Dismiss the popup when the user taps outside of it
+            popupView.setOnTouchListener((v1, event) -> {
+                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                    runOnUiThread(() -> popupWindow.dismiss());
+                    return true;
+                }
+                return false;
+            });
+
+
+            popupWindow.showAsDropDown(connect, 0, -180);
+        });
 
         sendSpeed.setOnClickListener(v -> {
             try {
@@ -153,19 +205,29 @@ public class MainActivity extends AppCompatActivity {
                     String newSpeed = String.valueOf(speed.getText()) + '\n';
                     outputStream.write(newSpeed.getBytes());
                     outputStream.flush();
-                    Toast.makeText(MainActivity.this, "New Speed: " + speed.getText(), Toast.LENGTH_SHORT).show();
+                    runOnUiThread(() -> Toast.makeText(MainActivity.this, "New Speed: " + speed.getText(), Toast.LENGTH_SHORT).show());
                 } else {
                     Log.e("MSG", "Output stream is null");
                     runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to send command", Toast.LENGTH_LONG).show());
                 }
+                runOnUiThread(() -> {
+                    status.setTextColor(Color.RED);
+                    status.setText("Status: Not Connected");
+                    Toast.makeText(MainActivity.this, "Failed to send command", Toast.LENGTH_LONG).show();
+                });
+
             } catch (IOException e) {
                 Log.e("MSG", "Failed to send command", e);
                 e.fillInStackTrace();
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to send command", Toast.LENGTH_LONG).show());
             }
         });
+
+        status = findViewById(R.id.status);
+        ImageButton selfDrive = findViewById(R.id.selfDrive);
+        selfDrive.setOnClickListener(v -> sendCommand(BluetoothInfo.COMMAND_SELF_DRIVE));
     }
 
+    @SuppressLint("SetTextI18n")
     private void sendCommand(char command) {
         try {
             if (outputStream != null) {
@@ -173,39 +235,59 @@ public class MainActivity extends AppCompatActivity {
                 outputStream.flush(); // Flush the output stream
             } else {
                 Log.e("MSG", "Output stream is null");
+                status.setText("Status: Not Connected");
+                status.setTextColor(Color.RED);
                 runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to send command", Toast.LENGTH_LONG).show());
             }
         } catch (IOException e) {
             Log.e("MSG", "Failed to send command", e);
             e.fillInStackTrace();
+            status.setText("Status: Not Connected");
+            status.setTextColor(Color.RED);
             runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to send command", Toast.LENGTH_LONG).show());
         }
     }
 
-    void connectToDevice() {
+    @SuppressLint("SetTextI18n")
+    void connectToDevice(String address) {
         new Thread(() -> {
             try {
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
-                socket = BluetoothInfo.device.createRfcommSocketToServiceRecord(BluetoothInfo.uuid);
+                BluetoothDevice device = BluetoothInfo.bluetoothAdapter.getRemoteDevice(address);
+                socket = device.createRfcommSocketToServiceRecord(BluetoothInfo.uuid);
                 socket.connect();
                 outputStream = socket.getOutputStream();
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Bluetooth successfully connected", Toast.LENGTH_LONG).show());
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this, "Bluetooth successfully connected", Toast.LENGTH_LONG).show();
+                    status.setText("Status: Connected");
+                    status.setTextColor(Color.GREEN);
+                });
+
             } catch (IOException e) {
                 e.fillInStackTrace();
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to connect to device", Toast.LENGTH_LONG).show());
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this, "Failed to connect to device", Toast.LENGTH_LONG).show();
+                    status.setText("Status: Not Connected");
+                    status.setTextColor(Color.RED);
+                });
             }
         }).start();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onDestroy() {
         super.onDestroy();
         try {
             if (socket != null) {
                 socket.close();
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Disconnected", Toast.LENGTH_LONG).show());
+                runOnUiThread(() -> {
+                    status.setTextColor(Color.RED);
+                    status.setText("Status: Not Connected");
+                    Toast.makeText(MainActivity.this, "Disconnected", Toast.LENGTH_LONG).show();
+                });
             }
         } catch (IOException e) {
             e.fillInStackTrace();

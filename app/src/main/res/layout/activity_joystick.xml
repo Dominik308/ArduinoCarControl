@@ -43,6 +43,7 @@
                 android:layout_marginEnd="6dp"
                 android:layout_marginBottom="6dp"
                 android:layout_toStartOf="@id/sendSpeed"
+                android:autofillHints=""
                 android:hint="@string/speed"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
@@ -78,6 +79,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/status" />
 
+    <ImageButton
+        android:id="@+id/selfDrive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/angleAndPower"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="1dp"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:src="@drawable/technology" />
 
     <ImageButton
         android:id="@+id/turnLeft"
@@ -101,7 +112,6 @@
         android:importantForAccessibility="no"
         android:src="@drawable/turn_right" />
 
-
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/joystick"
         android:layout_width="wrap_content"
@@ -113,7 +123,6 @@
         custom:JV_borderColor="#00796B"
         custom:JV_borderWidth="8dp"
         custom:JV_buttonColor="#FF6E40" />
-
 
     <ImageButton
         android:id="@+id/keyboard"

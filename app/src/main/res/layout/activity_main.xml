@@ -9,6 +9,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/connection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -51,7 +52,8 @@
                 android:text="@string/_255"
                 android:textAlignment="center"
                 android:textSize="27sp"
-                tools:ignore="TextViewEdits" />
+                tools:ignore="TextViewEdits"
+                android:autofillHints="" />
 
             <ImageButton
                 android:id="@+id/sendSpeed"
@@ -62,11 +64,27 @@
                 android:background="@null"
                 android:importantForAccessibility="no"
                 android:src="@drawable/right_arrow" />
-
         </RelativeLayout>
-
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/connection"
+        android:layout_marginTop="3dp"
+        android:text="@string/status_not_connected"
+        android:textColor="#FF0000" />
+
+    <ImageButton
+        android:id="@+id/selfDrive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:src="@drawable/technology" />
+
 
     <ImageButton
         android:id="@+id/forward"
