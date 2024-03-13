@@ -276,9 +276,9 @@ public class MainActivity extends AppCompatActivity {
     void connectToDevice(String address) {
         new Thread(() -> {
             try {
-                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED)
                     return;
-                }
+
                 BluetoothDevice device = BluetoothInfo.bluetoothAdapter.getRemoteDevice(address);
                 socket = device.createRfcommSocketToServiceRecord(BluetoothInfo.uuid);
                 socket.connect();

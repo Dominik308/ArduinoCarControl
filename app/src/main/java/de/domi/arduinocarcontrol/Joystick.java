@@ -206,9 +206,9 @@ public class Joystick extends AppCompatActivity {
     void connectToDevice(String address) {
         new Thread(() -> {
             try {
-                if (ActivityCompat.checkSelfPermission(Joystick.this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(Joystick.this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED)
                     return;
-                }
+
                 BluetoothDevice device = BluetoothInfo.bluetoothAdapter.getRemoteDevice(address);
                 socket = device.createRfcommSocketToServiceRecord(BluetoothInfo.uuid);
                 socket.connect();
